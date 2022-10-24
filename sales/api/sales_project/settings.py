@@ -80,6 +80,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'sales_project.wsgi.application'
 
 
+import dj_database_url
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
