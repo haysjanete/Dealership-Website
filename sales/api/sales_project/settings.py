@@ -1,3 +1,4 @@
+
 """
 Django settings for sales_project project.
 
@@ -82,6 +83,7 @@ WSGI_APPLICATION = 'sales_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+import dj_database_url
 
 DATABASES = {}
 DATABASES["default"] = dj_database_url.config()
