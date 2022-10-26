@@ -1,18 +1,12 @@
 import React from 'react';
 
 class NewSalesPersonForm extends React.component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            name: ' ',
-            employee_number: ' ',
-        };
-        this.handleNameChange = this.handleNameChange.bind(this);
-        this.handleEmployeeNumberChange = this.handleEmployeeNumberChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+    state = {
+        name: ' ',
+        employee_number: ' ',
+    };
 
-    async handleSubmit(event) {
+    handleSubmit = async (event) => {
         event.preventDefault();
         const data = {...this.state};
 
@@ -33,12 +27,12 @@ class NewSalesPersonForm extends React.component {
             }
     }
 
-    handleNameChange(event) {
+    handleNameChange = (event)  => {
         const value = event.target.value;
         this.setState({name: value})
     }
 
-    handleEmployeeNumberChange(event) {
+    handleEmployeeNumberChange = (event) => {
         const value = event.target.value;
         this.setState({employee_number: value})
     }
