@@ -31,3 +31,4 @@ class ServiceAppointment(models.Model):
         on_delete=models.CASCADE,
     )
     service_reason = models.CharField(max_length=200)
+    vip_status = models.BooleanField(default=False)
