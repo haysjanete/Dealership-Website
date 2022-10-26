@@ -18,7 +18,7 @@ class SalesPerson(models.Model):
 
 
 class Customer(models.Model):
-    name = models.Charfield(max_length=200)
+    name = models.CharField(max_length=200)
     address = models.CharField(max_length=400)
     phone_number = models.CharField(max_length=30)
 
@@ -28,7 +28,7 @@ class Customer(models.Model):
 class SalesRecord(models.Model):
     price = models.PositiveIntegerField(null=False)
 
-    customer = models.Foreignkey(
+    customer = models.ForeignKey(
         Customer,
         related_name = "sales_records",
         on_delete=models.CASCADE,
