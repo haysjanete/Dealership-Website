@@ -4,18 +4,18 @@ class ListSalesRecord extends React.component {
     state = {
         sales: [ ]
     };
-}
 
-    componentDidMount = async() => {
+
+    componentDidMount = async () => {
         const url = ('http://localhost:8090/api/sales/');
         const response = await fetch(url);
             if (response.ok) {
                 const data = await response.json();
-                this.setState({ sales: data.sales});
+                this.setState({sales: data.sales});
             }
     }
 
-    render () {
+    render = () => {
         return (
             <>
                 <div className="container p-10 m-10">
@@ -31,7 +31,7 @@ class ListSalesRecord extends React.component {
                         </thead>
                         <tbody>
                             {this.state.sales.map(sale => {
-                                return(
+                                return (
                                     <tr key={sale.vin}>
                                         <td>{sale.vin}</td>
                                         <td>{sale.sales_person.name}</td>
@@ -40,13 +40,14 @@ class ListSalesRecord extends React.component {
                                         <td>{'$' + sale.price}</td>
                                     </tr>
                                 );
-                            })}
+                                })}
                         </tbody>
                     </table>
                 </div>
             </>
         );
-    }
+    };
 }
+
 
 export default ListSalesRecord;

@@ -4,8 +4,10 @@ from django.urls import reverse
 # Create your models here.
 
 class AutomobileVO(models.Model):
-    vin = models.CharField(max_length=17, unique=False)
+    vin = models.CharField(max_length=17, unique=True)
     import_href = models.CharField(max_length=200, unique=True)
+    year = models.PositiveSmallIntegerField(null=False)
+    color = models.CharField(max_length=20, unique=False)
 
     def __str__(self):
         return self.vin

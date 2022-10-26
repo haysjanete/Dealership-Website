@@ -8,13 +8,9 @@ class NewCustomerForm extends React.Component {
             address: ' ',
             phone_number: ' ',
         };
-        this.handleNameChange = this.handleNameChange.bind(this);
-        this.handleAddressChange = this.handleAddressChange.bind(this);
-        this.handlePhoneChange = this.handlePhoneChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    async handleSubmit(event) {
+    handleSubmit= async (event) => {
         event.preventDefault();
         const data = {...this.state};
 
@@ -35,17 +31,17 @@ class NewCustomerForm extends React.Component {
                 });
             }
     }
-    handleNameChange(event) {
+    handleNameChange = (event) => {
         const value = event.target.value;
         this.setState({name: value})
     }
 
-    handleAddressChange(event) {
+    handleAddressChange = (event) => {
         const value = event.target.value;
         this.setState({address: value})
     }
 
-    handlePhoneChange(event) {
+    handlePhoneChange = (event) => {
         const value = event.target.value;
         this.setState({phone_number: value})
     }
