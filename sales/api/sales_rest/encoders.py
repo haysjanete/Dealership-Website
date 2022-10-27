@@ -11,7 +11,7 @@ class SalesPersonEncoder(ModelEncoder):
 
 class CustomerEncoder(ModelEncoder):
     model = Customer
-    properties = ["name", "id"]
+    properties = ["name", "address", "phone_number", "id"]
 
 class SalesRecordEncoder(ModelEncoder):
     model = SalesRecord

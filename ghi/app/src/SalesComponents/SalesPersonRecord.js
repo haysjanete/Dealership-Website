@@ -8,11 +8,11 @@ class SalesPersonRecord extends React.Component {
         };
 
     componentDidMount = async () => {
-        const url = ('http://localhost:8090/api/sales-person/');
+        const url = ('http://localhost:8090/api/sales/sales-person/');
         const response = await fetch(url);
             if (response.ok) {
                 const data = await response.json();
-                this.setState({all_employee: data.sales_person})
+                this.setState({all_employees: data.sales_person})
             }
     }
 

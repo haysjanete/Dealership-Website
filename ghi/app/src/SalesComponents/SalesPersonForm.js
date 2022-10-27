@@ -1,16 +1,18 @@
 import React from 'react';
 
-class NewSalesPersonForm extends React.component {
+class NewSalesPersonForm extends React.Component {
     state = {
         name: ' ',
         employee_number: ' ',
+        // picture_url: URL
+
     };
 
     handleSubmit = async (event) => {
         event.preventDefault();
         const data = {...this.state};
 
-        const customerUrl = 'http://localhost:8090/api/sales-person/';
+        const customerUrl = 'http://localhost:8090/api/sales/sales-person/';
         const fetchConfig = {
             method: "post",
             body: JSON.stringify(data),
