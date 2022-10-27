@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 import json
 from .models import AutomobileVO, Technician, ServiceAppointment
-from encoder import AutomobileVOEncoder, TechnicianEncoder, ServiceAppointmentEncoder
+from .encoder import TechnicianEncoder, ServiceAppointmentEncoder
 
 
 @require_http_methods(["GET", "POST"])
@@ -24,10 +24,10 @@ def api_list_technicians(request):
 
 
 @require_http_methods(["GET", "DELETE", "PUT"])
-def api_technician(request, pk):
+def api_technician(request, employee_number):
     if request.method == "GET":
         try:
-            technician = Technician.objects.get(id=pk)
+            technician = Technician.objects.get(employee_number=employee_number)
             return JsonResponse(
                 technician,
                 encoder=TechnicianEncoder,
@@ -39,7 +39,7 @@ def api_technician(request, pk):
             return response
     elif request.method == "DELETE":
         try:
-            technician = Technician.objects.get(id=pk)
+            technician = Technician.objects.get(employee_number=employee_number)
             technician.delete()
             return JsonResponse(
                 technician,
@@ -51,7 +51,7 @@ def api_technician(request, pk):
     else: #PUT
         try:
             content = json.loads(request.body)
-            technician = Technician.objects.get(id=pk)
+            technician = Technician.objects.get(employee_number=employee_number)
             props = [
                 "first_name",
                 "last_name",
@@ -78,21 +78,22 @@ def api_list_appointments(request):
     if request.method == "GET":
         service_appointment = ServiceAppointment.objects.all()
         return JsonResponse(
-        {"service_appointment": service_appointment},
-        encoder=ServiceAppointmentEncoder
+            {"appointments": service_appointment},
+            encoder=ServiceAppointmentEncoder,
+            safe=False,
         )
     else: #POST
         content = json.loads(request.body)
         try:
-            technician_id = content["technician"]
-            technician = Technician.objects.get(id=technician_id)
+            technician_employee_number = content["technician"]
+            technician = Technician.objects.get(employee_number=technician_employee_number)
             content["technician"] = technician
         except Technician.DoesNotExist:
             return JsonResponse(
-                {"message": "Invalid technician id"}
+                {"message": "Invalid employee number"}
             )
-        vin_nums = AutomobileVO.objects.vin.all()
-        if content["automobile"] in vin_nums:
+        matching_autos = AutomobileVO.objects.filter(vin=content["vin"])
+        if len(matching_autos) > 0:
             content["vip_status"] = True
         service_appointment = ServiceAppointment.objects.create(**content)
         return JsonResponse(

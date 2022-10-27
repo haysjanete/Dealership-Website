@@ -17,14 +17,10 @@ class Technician(models.Model):
 
 
 class ServiceAppointment(models.Model):
-    automobile = models.ForeignKey(
-        AutomobileVO,
-        related_name="appointments",
-        on_delete=models.PROTECT,
-    )
+    vin = models.CharField(max_length=17)
     customer_name = models.CharField(max_length=200)
     appointment_date = models.DateField()
-    appointment_time = models.TimeField
+    appointment_time = models.TimeField()
     technician = models.ForeignKey(
         Technician,
         related_name="appointments",
@@ -32,3 +28,12 @@ class ServiceAppointment(models.Model):
     )
     service_reason = models.CharField(max_length=200)
     vip_status = models.BooleanField(default=False)
+    service_status = models.CharField(max_length=100, default="Submitted")
+
+    def cancel(self):
+        self.service_status = "Cancelled"
+        self.save()
+
+    def finish(self):
+        self.service_status = "Finished"
+        self.save()
