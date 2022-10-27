@@ -8,11 +8,11 @@ class SalesPersonRecord extends React.Component {
         };
 
     componentDidMount = async () => {
-        const url = ('http://localhost:8090/api/sales-person/');
+        const url = ('http://localhost:8090/api/sales/sales-person/');
         const response = await fetch(url);
             if (response.ok) {
                 const data = await response.json();
-                this.setState({all_employee: data.sales_person})
+                this.setState({all_employees: data.sales_person})
             }
     }
 
@@ -65,10 +65,18 @@ class SalesPersonRecord extends React.Component {
                         <tbody>
                             {this.state.current_employee_sales.map((sale, idx) => {
                                 return (
-                                    <tr key={idx}
-                                )
+                                    <tr key={idx}>
+                                        <td>{sale.sales_person.name}</td>
+                                        <td>{sale.customer.name}</td>
+                                        <td>{sale.vin}</td>
+                                        <td>{'$' + sale.price}</td>
+                                    </tr>
+                                );
                             })}
                         </tbody>
+                        :
+                        null
+//////was expecting a ":" but didn't have one so I "nulled" it out.///////
                     }
                 </table>
             </div>
@@ -76,3 +84,6 @@ class SalesPersonRecord extends React.Component {
         )
     }
 }
+
+
+export default SalesPersonRecord;

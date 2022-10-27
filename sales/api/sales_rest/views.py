@@ -25,10 +25,10 @@ def api_sales_person(request):
             safe=False,
         )
 
-@require_http_methods(["GET", "POST"])
+@require_http_methods(["GET", "POST","DELETE"])
 def api_customer(request):
     if request.method == "GET":
-        customer = Customer.object.all()
+        customer = Customer.objects.all()
         return JsonResponse(
             {"customer": customer},
             encoder=CustomerEncoder,
@@ -42,7 +42,7 @@ def api_customer(request):
             safe=False,
         )
 
-@require_http_methods(["GET", "POST", "PUT"])
+@require_http_methods(["GET", "POST", "PUT",])
 def api_list_sales(request, sales_person_id=None):
     if request.method == "GET":
         if sales_person_id is not None:
@@ -59,45 +59,80 @@ def api_list_sales(request, sales_person_id=None):
             customer_id = content["customer"]
             customer = Customer.objects.get(id=customer_id)
             content["customer"] = customer
-
+        except Customer.DoesNotExist: 
+            response = JsonResponse(
+                {"message": "Customer does not exist"}
+            )
+            response.status_code = 400
+            return response
+        try:
             sales_person_id = content["sales_person"]
             sales_person = SalesPerson.objects.get(id=sales_person_id)
             content["sales_person"] = sales_person
-
+        except SalesPerson.DoesNotExist:
+            response = JsonResponse(
+                {"message": "Sales Person does not exist"}
+            )
+            response.status_code = 400
+            return response
+        try:
             vin = content["automobile"]
             automobile = AutomobileVO.objects.get(vin=vin)
             content["automobile"] = automobile
-
+        except AutomobileVO.DoesNotExist:
+            response = JsonResponse(
+                {"message": "No such automobile"}
+            )
+            response.status_code = 400
+            return response
+        try:
             sale = SalesRecord.objects.create(**content)
             return JsonResponse(
                 sale,
                 encoder=SalesRecordEncoder,
                 safe=False,
             )
-        except:
+        except SalesRecord.DoesNotExist:
             response = JsonResponse(
                 {"message": "Sales records do not exist"}
             )
             response.status_code = 400
             return response
 
-@require_http_methods(["GET"])
+@require_http_methods(["GET","DELETE"])
 def api_show_sale(request, pk):
     if request.method == "GET":
-        sale = SalesRecord.objects.filter(sales_person=pk)
-        return JsonResponse (
-            sale, encoder=SalesRecordEncoder,
+        try:
+            sale = SalesRecord.objects.filter(sales_person=pk)
+            return JsonResponse (
+                sale, 
+                encoder=SalesRecordEncoder,
+                safe=False,
+            )
+        except SalesRecord.DoesNotExist:
+            return JsonResponse(
+                {"message": "Does not exist"},
+                status=400
+            )
+    elif request.method =="DELETE":
+        try:
+            sale = SalesRecord.objects.get(id=pk)
+            sale.delete()
+            return JsonResponse(
+                sale,
+                encoder=SalesRecordEncoder,
             safe=False,
-        )
+            )
+        except SalesRecord.DoesNotExist:
+            return JsonResponse(
+                {"message": "sale does not exist"}
+            )
 
-@require_http_methods(["GET"])
-def api_unsold_vins(request):
-    if request.method == "GET":
-        sold_vins = [sale.automobile.vin for sale in SalesRecord.objects.all()]
-        unsold_vins = AutomobileVO.objects.exclude(vin_in=sold_vins)
-        print(unsold_vins)
-        return JsonResponse (
-            {"automobiles": unsold_vins},
-            encoder=AutomobileVOEncoder,
-            safe = False,
-        )
+# @require_http_methods(["GET"])
+# def api_unsold_vins(request):
+#     if request.method == "GET":
+#         return JsonResponse (
+#             "automobile",
+#             encoder=AutomobileVOEncoder,
+#             safe = False,
+#         )

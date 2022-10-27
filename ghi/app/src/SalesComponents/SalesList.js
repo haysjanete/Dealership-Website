@@ -1,20 +1,19 @@
 import React from 'react';
 
-class ListSalesRecord extends React.component {
+
+class SalesList extends React.Component {
     state = {
         sales: [ ]
-    };
-}
-
-    componentDidMount = async() => {
-        const url = ('http://localhost:8090/api/sales/');
-        const response = await fetch(url);
-            if (response.ok) {
-                const data = await response.json();
-                this.setState({ sales: data.sales});
-            }
     }
 
+    componentDidMount = async () => {
+        const url = ('http://localhost:8090/api/sales/');
+        const response = await fetch(url);
+        if (response.ok) {
+            const data = await response.json();
+            this.setState({sales: data.sales});
+        }
+    }
     render () {
         return (
             <>
@@ -45,8 +44,8 @@ class ListSalesRecord extends React.component {
                     </table>
                 </div>
             </>
-        );
+        )
     }
 }
 
-export default ListSalesRecord;
+export default SalesList;

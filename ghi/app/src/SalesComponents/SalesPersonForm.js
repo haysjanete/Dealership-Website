@@ -1,16 +1,18 @@
 import React from 'react';
 
-class NewSalesPersonForm extends React.component {
+class NewSalesPersonForm extends React.Component {
     state = {
         name: ' ',
         employee_number: ' ',
+        picture_url: ' ',
+
     };
 
     handleSubmit = async (event) => {
         event.preventDefault();
         const data = {...this.state};
 
-        const customerUrl = 'http://localhost:8090/api/sales-person/';
+        const customerUrl = 'http://localhost:8090/api/sales/sales-person/';
         const fetchConfig = {
             method: "post",
             body: JSON.stringify(data),
@@ -37,6 +39,11 @@ class NewSalesPersonForm extends React.component {
         this.setState({employee_number: value})
     }
 
+    handlePictureChange = (event) => {
+        const value = event.target.value;
+        this.setState({location: value})
+    }
+
     render () {
         return(
             <>
@@ -52,6 +59,10 @@ class NewSalesPersonForm extends React.component {
                     <div className="form-floating mb-3">
                         <input onChange={this.handleEmployeeNumberChange} placeholder="Employee Number" required type="text" name="employee_number" id="employee_number" className="form-control" value={this.state.employee_number} />
                             <label htmlFor="employee_number">Employee Number</label>
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="formFile" class="form-label">Upload Employee Picture</label>
+                        <input className="form-control" type="file" id="formFile" />
                     </div>
                     <button className="btn btn-primary">Create</button>
                 </form>
