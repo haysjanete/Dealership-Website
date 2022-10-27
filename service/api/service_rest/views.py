@@ -140,6 +140,7 @@ def api_appointment(request, pk):
                 "technician",
                 "service_reason",
                 "vip_status",
+                "service_status",
             ]
             for prop in props:
                 if prop in content:
@@ -156,6 +157,22 @@ def api_appointment(request, pk):
             return response
 
 
-# @require_http_methods(["GET"])
-# def api_list_service_history(request, vin):
-#     service_appointment = ServiceAppointment.objects.filter()
+@require_http_methods(["GET", "POST"])
+def api_list_service_history(request):
+    if request.method == "GET":
+        return JsonResponse(
+                {"message": "Success"}
+            )
+    else: #POST
+        content = json.loads(request.body)
+        try:
+            filtered_appointments = ServiceAppointment.objects.filter(vin=content["vin"])
+            return JsonResponse(
+                {"appointments": filtered_appointments},
+                encoder=ServiceAppointmentEncoder,
+                safe=False,
+            )
+        except AutomobileVO.DoesNotExist:
+            return JsonResponse(
+                {"message": "VIN does not exist"}
+            )

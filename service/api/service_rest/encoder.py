@@ -32,7 +32,7 @@ class ServiceAppointmentEncoder(ModelEncoder):
         "technician",
         "service_reason",
         "vip_status",
-        "service_status",
+        "service_status"
     ]
     encoders = {
         "technician": TechnicianEncoder(),

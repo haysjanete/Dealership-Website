@@ -11,9 +11,25 @@ class AppointmentList extends React.Component {
 
         if (response.ok) {
             const data = await response.json();
-            this.setState({appointments: data.appointments});
+            this.setState({appointments: data.appointments.filter(appointment => appointment.service_status === "Submitted")});
         }
     };
+
+    handleServiceStatusChange = async (event, new_status) => {
+        const id = event.target.value;
+        const appointmentUrl = `http://localhost:8080/api/appointments/${id}/`;
+        const fetchConfig = {
+            method: "put",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({service_status: new_status})
+        };
+        const appointmentResponse = await fetch(appointmentUrl, fetchConfig);
+        if (appointmentResponse.ok) {
+            this.setState({appointments: this.state.appointments.filter(appointment => appointment.id != id)})
+        }
+    }
 
     render = () => {
         return (
@@ -26,6 +42,7 @@ class AppointmentList extends React.Component {
                         <th>Time</th>
                         <th>Technician</th>
                         <th>Reason for service</th>
+                        <th>VIP Treatment</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -37,11 +54,12 @@ class AppointmentList extends React.Component {
                                 <td>{appointment.customer_name}</td>
                                 <td>{appointment.appointment_date}</td>
                                 <td>{appointment.appointment_time}</td>
-                                <td>{appointment.technician}</td>
+                                <td>{appointment.technician.first_name} {appointment.technician.last_name}</td>
                                 <td>{appointment.service_reason}</td>
+                                <td>{appointment.vip_status ? ("Yes") : ("No")}</td>
                                 <td>
-                                    <button>Cancel</button>
-                                    <button>Finished</button>
+                                    <button type="button" className="btn btn-danger" onClick={(event) => this.handleServiceStatusChange(event, "Cancelled")} value={appointment.id}>Cancel</button>
+                                    <button type="button" className="btn btn-success" onClick={(event) => this.handleServiceStatusChange(event, "Finished")} value={appointment.id}>Finished</button>
                                 </td>
                             </tr>
                         );
@@ -50,7 +68,6 @@ class AppointmentList extends React.Component {
             </table>
         )
     };
-
 }
 
 export default AppointmentList;

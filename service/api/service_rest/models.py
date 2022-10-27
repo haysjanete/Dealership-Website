@@ -29,11 +29,3 @@ class ServiceAppointment(models.Model):
     service_reason = models.CharField(max_length=200)
     vip_status = models.BooleanField(default=False)
     service_status = models.CharField(max_length=100, default="Submitted")
-
-    def cancel(self):
-        self.service_status = "Cancelled"
-        self.save()
-
-    def finish(self):
-        self.service_status = "Finished"
-        self.save()

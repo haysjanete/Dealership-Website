@@ -23,6 +23,7 @@ class ServiceAppointmentForm extends React.Component {
     handleSubmit = async (event) => {
         event.preventDefault();
         const data = {...this.state};
+        console.log(data);
         delete data.technicians;
 
         const appointmentUrl = 'http://localhost:8080/api/appointments/';
