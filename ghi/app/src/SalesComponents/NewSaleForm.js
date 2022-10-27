@@ -12,7 +12,7 @@ class NewSaleForm extends React.Component {
     };
 
     componentDidMount = async () => {
-        const automobileUrl = 'http://localhost:8090/api/automobiles/unsold-vins/';
+        const automobileUrl = 'http://localhost:8100/api/automobiles/';
         const employeeUrl = 'http://localhost:8090/api/sales/sales-person/';
         const customerUrl = 'http://localhost:8090/api/customer/';
         const automobileResponse = await fetch(automobileUrl);
@@ -23,7 +23,8 @@ class NewSaleForm extends React.Component {
         const automobileData = await automobileResponse.json();
         const employeeData = await employeeResponse.json();
         const customerData = await customerResponse.json();
-        this.setState({automobiles: automobileData.automobiles, 
+        this.setState({
+            automobiles: automobileData.autos.filter(auto => auto.sold === false), 
             sales_persons: employeeData.sales_person, 
             customers: customerData.customer
         });
@@ -37,6 +38,7 @@ class NewSaleForm extends React.Component {
         delete data.automobiles;
         delete data.customers;
         delete data.sales_persons;
+        
 
         const saleUrl = 'http://localhost:8090/api/sales/';
         const fetchConfig = {
@@ -46,6 +48,19 @@ class NewSaleForm extends React.Component {
                 'Content-Type' : 'application/json'
             },
         };
+
+        const automobilesUrl = `http://localhost:8100/api/automobiles/${data.automobile}/`;
+        const automobilesfetchConfig = {
+            method: 'put',
+            body: JSON.stringify({sold: true}),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }
+//  if sold = true update selection to none
+        // const automobilesResponse = await fetch(automobilesUrl, automobilesfetchConfig);
+
+
         const saleResponse = await fetch(saleUrl, fetchConfig);
             if(saleResponse.ok) {
                 this.setState({
@@ -53,9 +68,10 @@ class NewSaleForm extends React.Component {
                     automobile: data.automobile.vin,
                     sales_person: data.sales_person,
                     customer: data.customer
+
                 });
             }
-            return window.location.reload();
+            // return window.location.reload();
     }
     
     handleAutomobileChange = (event) => {
@@ -90,7 +106,7 @@ class NewSaleForm extends React.Component {
                     <div className="mb-3">
                         <select onChange={this.handleAutomobileChange} required name = "automobile" id="automobile" className="form-select" value={this.state.automobile}>
                         <option value="">Choose an Automobile</option>
-                        {this.state.automobiles.map((automobile)=> {
+                        {this.state.automobiles.map(automobile => {
                             return(
                                 <option key={automobile.vin} value={automobile.vin}>
                                     {automobile.vin}
@@ -127,7 +143,7 @@ class NewSaleForm extends React.Component {
                         <input onChange={this.handlePriceChange} placeholder="Price" required type="text" name="price" id="price" className="form-control" value={this.state.price} />
                             <label htmlFor="price">Price</label>
                     </div>
-                    <button className="btn btn-primary">Create</button>
+                    <button className="btn btn-primary" onClick="fun()">Create</button>
                     </form>
             </div>
             </div>
