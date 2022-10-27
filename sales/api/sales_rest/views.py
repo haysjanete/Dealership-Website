@@ -112,7 +112,7 @@ def api_show_sale(request, pk):
 def api_unsold_vins(request):
     if request.method == "GET":
         sold_vins = [sale.automobile.vin for sale in SalesRecord.objects.all()]
-        unsold_vins = AutomobileVO.objects.exclude(vin_in=sold_vins)
+        unsold_vins = AutomobileVO.objects.exclude(vin=sold_vins)
         print(unsold_vins)
         return JsonResponse (
             {"automobiles": unsold_vins},

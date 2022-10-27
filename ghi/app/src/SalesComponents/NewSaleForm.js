@@ -10,7 +10,28 @@ class NewSaleForm extends React.Component {
         customer: ' ',
         price: ' ',
     };
-    componentDidMount = async (event) => {
+
+    componentDidMount = async () => {
+        const automobileUrl = 'http://localhost:8090/api/automobiles/unsold-vins/';
+        const employeeUrl = 'http://localhost:8090/api/sales/sales-person/';
+        const customerUrl = 'http://localhost:8090/api/customer/';
+        const automobileResponse = await fetch(automobileUrl);
+        const employeeResponse = await fetch(employeeUrl);
+        const customerResponse = await fetch(customerUrl);
+
+    if (automobileResponse.ok && employeeResponse.ok && customerResponse.ok) {
+        const automobileData = await automobileResponse.json();
+        const employeeData = await employeeResponse.json();
+        const customerData = await customerResponse.json();
+        this.setState({automobiles: automobileData.automobiles, 
+            sales_persons: employeeData.sales_person, 
+            customers: customerData.customer
+        });
+    };
+}
+
+
+    handleSubmit = async (event) => {
         event.preventDefault();
         const data = {...this.state};
         delete data.automobiles;
@@ -29,16 +50,16 @@ class NewSaleForm extends React.Component {
             if(saleResponse.ok) {
                 this.setState({
                     price: ' ',
-                    automobile: ' ',
-                    sales_person: ' ',
-                    customer: ' ',
+                    automobile: data.automobile.vin,
+                    sales_person: data.sales_person,
+                    customer: data.customer
                 });
             }
             return window.location.reload();
     }
     
     handleAutomobileChange = (event) => {
-        const value = event.targe.value;
+        const value = event.target.value;
         this.setState({automobile: value})
     }
 
