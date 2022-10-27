@@ -6,15 +6,6 @@ class ServiceHistory extends React.Component {
         vin: "",
     };
 
-    // componentDidMount = async () => {
-    //     const appointmentUrl = 'http://localhost:8080/api/appointments/';
-    //     const response = await fetch(appointmentUrl);
-
-    //     if (response.ok) {
-    //         const data = await response.json();
-    //         this.setState({appointments: data.appointments.filter(appointment => appointment.service_status === "Submitted")});
-    //     }
-    // };
     retrieveSalesHistory = async () => {
         const history_vin = this.state.vin;
         const historyUrl = "http://localhost:8080/api/appointments/history/"
@@ -26,13 +17,9 @@ class ServiceHistory extends React.Component {
             body: JSON.stringify({vin: history_vin})
         };
         const historyResponse = await fetch(historyUrl, fetchConfig);
-        console.log(historyResponse)
         if (historyResponse.ok) {
             const data = await historyResponse.json();
-            console.log(data)
-            console.log(...data.appointments)
             this.setState({appointments: data.appointments, vin: ""})
-            console.log(this.state)
         }
     }
 
@@ -40,22 +27,6 @@ class ServiceHistory extends React.Component {
         const value = event.target.value;
         this.setState({ vin: value });
     };
-
-    // handleServiceStatusChange = async (event, new_status) => {
-    //     const id = event.target.value;
-    //     const appointmentUrl = `http://localhost:8080/api/appointments/${id}/`;
-    //     const fetchConfig = {
-    //         method: "put",
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({service_status: new_status})
-    //     };
-    //     const appointmentResponse = await fetch(appointmentUrl, fetchConfig);
-    //     if (appointmentResponse.ok) {
-    //         this.setState({appointments: this.state.appointments.filter(appointment => appointment.id != id)})
-    //     }
-    // }
 
     render = () => {
         return (

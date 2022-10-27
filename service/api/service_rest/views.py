@@ -34,7 +34,7 @@ def api_technician(request, employee_number):
                 safe=False,
             )
         except Technician.DoesNotExist:
-            response = JsonResponse({"message": "Does not exist"})
+            response = JsonResponse({"message": "Technician does not exist"})
             response.status_code = 404
             return response
     elif request.method == "DELETE":
@@ -47,7 +47,9 @@ def api_technician(request, employee_number):
                 safe=False,
             )
         except Technician.DoesNotExist:
-            return JsonResponse({"message": "Does not exist"})
+            response = JsonResponse({"message": "Technician does not exist"})
+            response.status_code = 404
+            return response
     else: #PUT
         try:
             content = json.loads(request.body)
@@ -68,7 +70,7 @@ def api_technician(request, employee_number):
                 safe=False,
             )
         except Technician.DoesNotExist:
-            response = JsonResponse({"message": "Does not exist"})
+            response = JsonResponse({"message": "Technician does not exist"})
             response.status_code = 404
             return response
 
@@ -89,9 +91,9 @@ def api_list_appointments(request):
             technician = Technician.objects.get(employee_number=technician_employee_number)
             content["technician"] = technician
         except Technician.DoesNotExist:
-            return JsonResponse(
-                {"message": "Invalid employee number"}
-            )
+            response = JsonResponse({"message": "Invalid employee number"})
+            response.status_code = 400
+            return response
         matching_autos = AutomobileVO.objects.filter(vin=content["vin"])
         if len(matching_autos) > 0:
             content["vip_status"] = True
@@ -114,7 +116,7 @@ def api_appointment(request, pk):
                 safe=False,
             )
         except ServiceAppointment.DoesNotExist:
-            response = JsonResponse({"message": "Does not exist"})
+            response = JsonResponse({"message": "Service appointment does not exist"})
             response.status_code = 404
             return response
     elif request.method == "DELETE":
@@ -127,7 +129,9 @@ def api_appointment(request, pk):
                 safe=False,
             )
         except ServiceAppointment.DoesNotExist:
-            return JsonResponse({"message": "Does not exist"})
+            response = JsonResponse({"message": "Service appointment does not exist"})
+            response.status_code = 404
+            return response
     else: #PUT
         try:
             content = json.loads(request.body)
@@ -152,7 +156,7 @@ def api_appointment(request, pk):
                 safe=False,
             )
         except ServiceAppointment.DoesNotExist:
-            response = JsonResponse({"message": "Does not exist"})
+            response = JsonResponse({"message": "Service appointment does not exist"})
             response.status_code = 404
             return response
 
@@ -160,19 +164,14 @@ def api_appointment(request, pk):
 @require_http_methods(["GET", "POST"])
 def api_list_service_history(request):
     if request.method == "GET":
-        return JsonResponse(
-                {"message": "Success"}
-            )
+        response = JsonResponse({"message": "Success"})
+        response.status_code = 200
+        return response
     else: #POST
         content = json.loads(request.body)
-        try:
-            filtered_appointments = ServiceAppointment.objects.filter(vin=content["vin"])
-            return JsonResponse(
-                {"appointments": filtered_appointments},
-                encoder=ServiceAppointmentEncoder,
-                safe=False,
-            )
-        except AutomobileVO.DoesNotExist:
-            return JsonResponse(
-                {"message": "VIN does not exist"}
-            )
+        filtered_appointments = ServiceAppointment.objects.filter(vin=content["vin"])
+        return JsonResponse(
+            {"appointments": filtered_appointments},
+            encoder=ServiceAppointmentEncoder,
+            safe=False,
+        )
