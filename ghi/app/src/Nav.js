@@ -11,18 +11,6 @@ function Nav() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <div className="nav-item dropdown p-2">
             <NavLink className="nav-item dropdown-toggle btn-outline-info text-white p-2" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Inventory
-            </NavLink>
-            <li className="dropdown-menu">
-              <NavLink className="dropdown-item" to="/manufacturers/list">Vehicle Manufacturers</NavLink>
-              <NavLink className="dropdown-item" to="/models/list">Vehicle Models</NavLink>
-              <hr className="dropdown-divider" />
-              <NavLink className="dropdown-item" to="/manufacturers/new">New Manufacturer</NavLink>
-              <NavLink className="dropdown-item" to="/models/new">New Vehicle Model</NavLink>
-            </li>
-          </div>
-          <div className="nav-item dropdown p-2">
-            <NavLink className="nav-item dropdown-toggle btn-outline-info text-white p-2" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Sales
             </NavLink>
             <li className="dropdown-menu">
@@ -44,6 +32,18 @@ function Nav() {
               <NavLink className="dropdown-item" to="/appointments/new">Schedule an Appointment</NavLink>
               <hr className="dropdown-divider" />
               <NavLink className="dropdown-item" to="/technicians/new">New Technician</NavLink>
+            </li>
+          </div>
+          <div className="nav-item dropdown p-2">
+            <NavLink className="nav-item dropdown-toggle btn-outline-info text-white p-2" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Inventory
+            </NavLink>
+            <li className="dropdown-menu">
+              <NavLink className="dropdown-item" to="/manufacturers/list">Vehicle Manufacturers</NavLink>
+              <NavLink className="dropdown-item" to="/models/list">Vehicle Models</NavLink>
+              <hr className="dropdown-divider" />
+              <NavLink className="dropdown-item" to="/manufacturers/new">New Manufacturer</NavLink>
+              <NavLink className="dropdown-item" to="/models/new">New Vehicle Model</NavLink>
             </li>
           </div>
         </div>
