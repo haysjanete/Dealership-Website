@@ -23,7 +23,6 @@ class TechnicianForm extends React.Component {
     const response = await fetch(locationUrl, fetchConfig);
     if (response.ok) {
       const newTechnician = await response.json();
-      console.log(newTechnician);
       const cleared = {
         first_name: '',
         last_name: '',
@@ -34,24 +33,10 @@ class TechnicianForm extends React.Component {
     };
   };
 
-  handleFirstNameChange = (event) => {
+  handleChange = (event) => {
     const value = event.target.value;
-    this.setState({ first_name: value });
-  };
-
-  handleLastNameChange = (event) => {
-    const value = event.target.value;
-    this.setState({ last_name: value });
-  };
-
-  handleEmployeeNumberChange = (event) => {
-    const value = event.target.value;
-    this.setState({ employee_number: value });
-  };
-
-  handleEmployeePhotoChange = (event) => {
-    const value = event.target.value;
-    this.setState({ employee_photo: value });
+    const name = event.target.name;
+    this.setState({[name]: value});
   };
 
   render = () => {
@@ -62,19 +47,19 @@ class TechnicianForm extends React.Component {
             <h1>Create a new technician</h1>
             <form onSubmit={this.handleSubmit} id="create-technician-form">
               <div className="form-floating mb-3">
-                <input value={this.state.first_name} onChange={this.handleFirstNameChange} placeholder="First Name" required type="text" name="first_name" id="first_name" className="form-control" />
+                <input value={this.state.first_name} onChange={this.handleChange} placeholder="First Name" required type="text" name="first_name" id="first_name" className="form-control" />
                 <label htmlFor="first_name">First Name</label>
               </div>
               <div className="form-floating mb-3">
-                <input value={this.state.last_name} onChange={this.handleLastNameChange} placeholder="Last Name" required type="text" name="last_name" id="last_name" className="form-control" />
+                <input value={this.state.last_name} onChange={this.handleChange} placeholder="Last Name" required type="text" name="last_name" id="last_name" className="form-control" />
                 <label htmlFor="last_name">Last Name</label>
               </div>
               <div className="form-floating mb-3">
-                <input value={this.state.employee_number} onChange={this.handleEmployeeNumberChange} placeholder="Employee Number" required type="number" name="employee_number" id="employee_number" className="form-control" />
+                <input value={this.state.employee_number} onChange={this.handleChange} placeholder="Employee Number" required type="number" name="employee_number" id="employee_number" className="form-control" />
                 <label htmlFor="employee_number">Employee Number</label>
               </div>
               <div className="form-floating mb-3">
-                <input value={this.state.employee_photo} onChange={this.handleEmployeePhotoChange} placeholder="Employee Photo" required type="text" name="employee_photo" id="employee_photo" className="form-control" />
+                <input value={this.state.employee_photo} onChange={this.handleChange} placeholder="Employee Photo" required type="text" name="employee_photo" id="employee_photo" className="form-control" />
                 <label htmlFor="employee_photo">Paste in your employee photo URL</label>
               </div>
               <button className="btn btn-primary">Create</button>

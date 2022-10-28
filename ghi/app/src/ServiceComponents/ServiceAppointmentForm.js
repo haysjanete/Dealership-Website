@@ -23,9 +23,7 @@ class ServiceAppointmentForm extends React.Component {
     handleSubmit = async (event) => {
         event.preventDefault();
         const data = {...this.state};
-        console.log(data);
         delete data.technicians;
-
         const appointmentUrl = 'http://localhost:8080/api/appointments/';
         const fetchConfig = {
             method: "post",
@@ -37,7 +35,6 @@ class ServiceAppointmentForm extends React.Component {
         const response = await fetch(appointmentUrl, fetchConfig);
         if (response.ok) {
             const newAppointment = await response.json();
-            console.log(newAppointment);
             const cleared = {
                 vin: '',
                 customer_name: '',
@@ -48,36 +45,12 @@ class ServiceAppointmentForm extends React.Component {
             };
             this.setState(cleared);
         };
-     };
-
-    handleVINChange = (event) => {
-        const value = event.target.value;
-        this.setState({ vin: value });
     };
 
-    handleCustomerNameChange = (event) => {
+    handleChange = (event) => {
         const value = event.target.value;
-        this.setState({ customer_name: value });
-    };
-
-    handleAppointmentDateChange = (event) => {
-        const value = event.target.value;
-        this.setState({ appointment_date: value });
-    };
-
-    handleAppointmentTimeChange = (event) => {
-        const value = event.target.value;
-        this.setState({ appointment_time: value });
-    };
-
-    handleTechnicianChange = (event) => {
-        const value = event.target.value;
-        this.setState({ technician: value });
-    };
-
-    handleServiceReasonChange = (event) => {
-        const value = event.target.value;
-        this.setState({ service_reason: value });
+        const name = event.target.name;
+        this.setState({[name]: value});
     };
 
     render = () => {
@@ -88,23 +61,23 @@ class ServiceAppointmentForm extends React.Component {
                 <h1>Create a new service appointment</h1>
                 <form onSubmit={this.handleSubmit} id="create-appointment-form">
                 <div className="form-floating mb-3">
-                    <input value={this.state.vin} onChange={this.handleVINChange} placeholder="VIN" required type="text" name="vin" id="vin" className="form-control" />
+                    <input value={this.state.vin} onChange={this.handleChange} placeholder="VIN" required type="text" name="vin" id="vin" className="form-control" />
                     <label htmlFor="vin">VIN</label>
                 </div>
                 <div className="form-floating mb-3">
-                    <input value={this.state.customer_name} onChange={this.handleCustomerNameChange} placeholder="Customer Name" required type="text" name="customer_name" id="customer_name" className="form-control" />
+                    <input value={this.state.customer_name} onChange={this.handleChange} placeholder="Customer Name" required type="text" name="customer_name" id="customer_name" className="form-control" />
                     <label htmlFor="customer_name">Customer Name</label>
                 </div>
                 <div className="form-floating mb-3">
-                    <input value={this.state.appointment_date} onChange={this.handleAppointmentDateChange} placeholder="Appointment Date" required type="date" name="appointment_date" id="appointment_date" className="form-control" />
+                    <input value={this.state.appointment_date} onChange={this.handleChange} placeholder="Appointment Date" required type="date" name="appointment_date" id="appointment_date" className="form-control" />
                     <label htmlFor="appointment_date">Appointment Date</label>
                 </div>
                 <div className="form-floating mb-3">
-                    <input value={this.state.appointment_time} onChange={this.handleAppointmentTimeChange} placeholder="Appointment Time" required type="time" min="09:00:00" max="17:00:00" name="appointment_time" id="appointment_time" className="form-control" />
+                    <input value={this.state.appointment_time} onChange={this.handleChange} placeholder="Appointment Time" required type="time" min="09:00:00" max="17:00:00" name="appointment_time" id="appointment_time" className="form-control" />
                     <label htmlFor="appointment_time">Appointment Time</label>
                 </div>
                 <div className="mb-3">
-                    <select onChange={this.handleTechnicianChange} required name="technician" id="technician" className="form-select">
+                    <select onChange={this.handleChange} required name="technician" id="technician" className="form-select">
                     <option value="">Choose a technician</option>
                     {this.state.technicians.map(technician => {
                         return (
@@ -114,7 +87,7 @@ class ServiceAppointmentForm extends React.Component {
                     </select>
                 </div>
                 <div className="form-floating mb-3">
-                    <input value={this.state.service_reason} onChange={this.handleServiceReasonChange} placeholder="Service Reason" required type="text" name="service_reason" id="service_reason" className="form-control" />
+                    <input value={this.state.service_reason} onChange={this.handleChange} placeholder="Service Reason" required type="text" name="service_reason" id="service_reason" className="form-control" />
                     <label htmlFor="service_reason">Service Reason</label>
                 </div>
                 <button className="btn btn-primary">Reserve</button>

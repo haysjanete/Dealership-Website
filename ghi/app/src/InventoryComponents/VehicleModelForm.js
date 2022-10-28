@@ -41,19 +41,10 @@ class VehicleModelForm extends React.Component {
         };
     };
 
-    handleNameChange = (event) => {
+    handleChange = (event) => {
         const value = event.target.value;
-        this.setState({ name: value });
-    };
-
-    handlePictureUrlChange = (event) => {
-        const value = event.target.value;
-        this.setState({ picture_url: value });
-    };
-
-    handleManufacturerChange = (event) => {
-        const value = event.target.value;
-        this.setState({ manufacturer_id: value });
+        const name = event.target.name;
+        this.setState({[name]: value});
     };
 
     render = () => {
@@ -64,15 +55,15 @@ class VehicleModelForm extends React.Component {
                 <h1>Create a vehicle model</h1>
                 <form onSubmit={this.handleSubmit} id="create-manufacturer-form">
                     <div className="form-floating mb-3">
-                        <input value={this.state.name} onChange={this.handleNameChange} placeholder="Name" required type="text" name="name" id="name" className="form-control" />
+                        <input value={this.state.name} onChange={this.handleChange} placeholder="Name" required type="text" name="name" id="name" className="form-control" />
                         <label htmlFor="name">Name</label>
                     </div>
                     <div className="form-floating mb-3">
-                        <input value={this.state.picture_url} onChange={this.handlePictureUrlChange} placeholder="Picture URL" required type="text" name="picture_url" id="picture_url" className="form-control" />
+                        <input value={this.state.picture_url} onChange={this.handleChange} placeholder="Picture URL" required type="text" name="picture_url" id="picture_url" className="form-control" />
                         <label htmlFor="picture_url">Picture URL</label>
                     </div>
                     <div className="mb-3">
-                        <select onChange={this.handleManufacturerChange} required name="manufacturer_id" id="manufacturer_id" className="form-select">
+                        <select onChange={this.handleChange} required name="manufacturer_id" id="manufacturer_id" className="form-select">
                         <option value="">Choose a manufacturer</option>
                         {this.state.manufacturers.map(manufacturer => {
                             return (

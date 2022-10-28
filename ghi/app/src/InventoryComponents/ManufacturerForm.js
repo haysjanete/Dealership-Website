@@ -26,9 +26,10 @@ class ManufacturerForm extends React.Component {
     };
   };
 
-  handleNameChange = (event) => {
-    const value = event.target.value;
-    this.setState({ name: value });
+  handleChange = (event) => {
+      const value = event.target.value;
+      const name = event.target.name;
+      this.setState({[name]: value});
   };
 
   render = () => {
@@ -39,7 +40,7 @@ class ManufacturerForm extends React.Component {
             <h1>Create a manufacturer</h1>
             <form onSubmit={this.handleSubmit} id="create-manufacturer-form">
               <div className="form-floating mb-3">
-                <input value={this.state.name} onChange={this.handleNameChange} placeholder="Name" required type="text" name="name" id="name" className="form-control" />
+                <input value={this.state.name} onChange={this.handleChange} placeholder="Name" required type="text" name="name" id="name" className="form-control" />
                 <label htmlFor="name">Name</label>
               </div>
               <button className="btn btn-primary">Create</button>
