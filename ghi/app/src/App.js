@@ -21,12 +21,12 @@ function App() {
       <Nav />
       <div className="container">
         <Routes>
-          <Route path="/manufacturers">
-            <Route index element={<ManufacturerList />} />
+          <Route path="manufacturers">
+            <Route path="list" element={<ManufacturerList />} />
             <Route path="new" element={<ManufacturerForm />} />
           </Route>
-          <Route path="/models">
-            <Route index element={<VehicleModelList />} />
+          <Route path="models">
+            <Route path="list" element={<VehicleModelList />} />
             <Route path="new" element={<VehicleModelForm />} />
           </Route>
           <Route path="/sales-list" element={<SalesList/>} />
@@ -39,7 +39,7 @@ function App() {
             <Route path="new" element={<TechnicianForm />} />
           </Route>
           <Route path="appointments">
-            <Route index element={<AppointmentList />} />
+            <Route path="list" element={<AppointmentList />} />
             <Route path="new" element={<ServiceAppointmentForm />} />
             <Route path="history" element={<ServiceHistory />} />
           </Route>
