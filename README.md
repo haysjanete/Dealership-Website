@@ -7,6 +7,9 @@ Team:
 
 ## Design
 
+In the inventory microservice I was in charge of creating react components of an automobile list and a new automobile form. When creating the automobile list I pulled from the automobile model to show the list of vins and there respective properties. The vehicle Manufacturer was accessed through the foreignkey for the Vehicle Model. When creating the automobile form I made sure the attributes where respective to what the list needed to be displayed.
+
+
 Ted - I created the React components for the service microservice and the manufacturer list and form as well as the vehicle model list and form for the inventory microservice.
 
 ## Service microservice

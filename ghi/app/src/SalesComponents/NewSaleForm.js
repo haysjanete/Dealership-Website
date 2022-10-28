@@ -139,11 +139,11 @@ class NewSaleForm extends React.Component {
                         })}
                         </select>
                     </div>
-                    <div className="form floating mb-3">
+                    <div className="form-floating mb-3">
                         <input onChange={this.handlePriceChange} placeholder="Price" required type="text" name="price" id="price" className="form-control" value={this.state.price} />
-                            <label htmlFor="price">Price</label>
+                        <label htmlFor="price">Price</label>
                     </div>
-                    <button className="btn btn-primary" onClick="fun()">Create</button>
+                    <button className="btn btn-primary">Create</button>
                     </form>
             </div>
             </div>

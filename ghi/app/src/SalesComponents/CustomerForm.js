@@ -62,7 +62,7 @@ class NewCustomerForm extends React.Component {
                         <input onChange={this.handleAddressChange} placeholder="Address" required type="text" name="address" id="address" className="form-control" value={this.state.address} />
                         <label htmlFor="address">Address</label>
                     </div>
-                    <div>
+                    <div className="form-floating mb-3">
                         <input onChange={this.handlePhoneChange} placeholder="Phone Number" required type="text" name="phone_number" id="phone_number" className="form-control" value={this.state.phone_number} />
                         <label htmlFor="phone_number">Phone Number</label>
                     </div>
