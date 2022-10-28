@@ -11,15 +11,6 @@ function Nav() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <div className="nav-item dropdown p-2">
             <NavLink className="nav-item dropdown-toggle btn-outline-info text-white p-2" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Inventory
-            </NavLink>
-            <li className="dropdown-menu">
-              <li><NavLink className="dropdown-item btn-outline-info" to="/automobiles">Automobiles</NavLink></li>
-              <li><NavLink className="dropdown-item btn-outline-info" to="/new-automobile">New Automobile</NavLink></li>
-            </li>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <div className="nav-item dropdown p-2">
-            <NavLink className="nav-item dropdown-toggle btn-outline-info text-white p-2" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Sales
             </NavLink>
             <li className="dropdown-menu">

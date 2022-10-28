@@ -6,8 +6,6 @@ import NewSalesPersonForm from'./SalesComponents/SalesPersonForm';
 import SalesPersonRecord from './SalesComponents/SalesPersonRecord';
 import SalesList from './SalesComponents/SalesList';
 import NewSaleForm from './SalesComponents/NewSaleForm';
-import ListAutomobiles from './ListAutomobiles';
-import NewAutomobileForm from './AutomobileForm';
 
 function App() {
   return (
@@ -21,8 +19,6 @@ function App() {
           <Route path="/sales-person" element={<NewSalesPersonForm />} />
           <Route path="/records" element={<SalesPersonRecord/>}/>
           <Route path="/new-sale" element={<NewSaleForm/>}/>
-          <Route path="/automobiles" element={<ListAutomobiles />} />
-          <Route path="/new-automobile" element={<NewAutomobileForm />} />
         </Routes>
       </div>
     </BrowserRouter>
