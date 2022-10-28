@@ -138,9 +138,10 @@ class NewSaleForm extends React.Component {
                         })}
                         </select>
                     </div>
-                    <div className="form-floating mb-3">
-                        <input onChange={this.handlePriceChange} placeholder="Price" required type="text" name="price" id="price" className="form-control" value={this.state.price} />
-                        <label htmlFor="price">Price</label>
+                    <div className="input-group mb-3">
+                        <span className="input-group-text">$</span>
+                        <input onChange={this.handlePriceChange} placeholder="Price" required type="text" name="price" id="price" className="form-control" aria-label="Dollar amount (with dot and two decimal places)" value={this.state.price} />
+                        <span class="input-group-text">.00</span>
                     </div>
                     <button className="btn btn-primary">Create</button>
                     </form>
