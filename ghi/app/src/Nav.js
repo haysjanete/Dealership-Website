@@ -33,8 +33,10 @@ function Nav() {
           </div>
         </div>
       </div>
+      </div>
+      </div>
     </nav>
-  )
+)
 }
 
 export default Nav;
