@@ -61,7 +61,7 @@ class NewSalesPersonForm extends React.Component {
                             <label htmlFor="employee_number">Employee Number</label>
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="formFile" class="form-label">Upload Employee Picture</label>
+                        <label htmlFor="formFile" className="form-label">Upload Employee Picture</label>
                         <input className="form-control" type="file" id="formFile" />
                     </div>
                     <button className="btn btn-primary">Create</button>
