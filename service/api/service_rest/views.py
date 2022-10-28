@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 import json
 from .models import AutomobileVO, Technician, ServiceAppointment
-from encoder import AutomobileVOEncoder, TechnicianEncoder, ServiceAppointmentEncoder
+from .encoder import TechnicianEncoder, ServiceAppointmentEncoder
 
 
 @require_http_methods(["GET", "POST"])
@@ -24,22 +24,22 @@ def api_list_technicians(request):
 
 
 @require_http_methods(["GET", "DELETE", "PUT"])
-def api_technician(request, pk):
+def api_technician(request, employee_number):
     if request.method == "GET":
         try:
-            technician = Technician.objects.get(id=pk)
+            technician = Technician.objects.get(employee_number=employee_number)
             return JsonResponse(
                 technician,
                 encoder=TechnicianEncoder,
                 safe=False,
             )
         except Technician.DoesNotExist:
-            response = JsonResponse({"message": "Does not exist"})
+            response = JsonResponse({"message": "Technician does not exist"})
             response.status_code = 404
             return response
     elif request.method == "DELETE":
         try:
-            technician = Technician.objects.get(id=pk)
+            technician = Technician.objects.get(employee_number=employee_number)
             technician.delete()
             return JsonResponse(
                 technician,
@@ -47,11 +47,13 @@ def api_technician(request, pk):
                 safe=False,
             )
         except Technician.DoesNotExist:
-            return JsonResponse({"message": "Does not exist"})
+            response = JsonResponse({"message": "Technician does not exist"})
+            response.status_code = 404
+            return response
     else: #PUT
         try:
             content = json.loads(request.body)
-            technician = Technician.objects.get(id=pk)
+            technician = Technician.objects.get(employee_number=employee_number)
             props = [
                 "first_name",
                 "last_name",
@@ -68,7 +70,7 @@ def api_technician(request, pk):
                 safe=False,
             )
         except Technician.DoesNotExist:
-            response = JsonResponse({"message": "Does not exist"})
+            response = JsonResponse({"message": "Technician does not exist"})
             response.status_code = 404
             return response
 
@@ -78,21 +80,22 @@ def api_list_appointments(request):
     if request.method == "GET":
         service_appointment = ServiceAppointment.objects.all()
         return JsonResponse(
-        {"service_appointment": service_appointment},
-        encoder=ServiceAppointmentEncoder
+            {"appointments": service_appointment},
+            encoder=ServiceAppointmentEncoder,
+            safe=False,
         )
     else: #POST
         content = json.loads(request.body)
         try:
-            technician_id = content["technician"]
-            technician = Technician.objects.get(id=technician_id)
+            technician_employee_number = content["technician"]
+            technician = Technician.objects.get(employee_number=technician_employee_number)
             content["technician"] = technician
         except Technician.DoesNotExist:
-            return JsonResponse(
-                {"message": "Invalid technician id"}
-            )
-        vin_nums = AutomobileVO.objects.vin.all()
-        if content["automobile"] in vin_nums:
+            response = JsonResponse({"message": "Invalid employee number"})
+            response.status_code = 400
+            return response
+        matching_autos = AutomobileVO.objects.filter(vin=content["vin"])
+        if len(matching_autos) > 0:
             content["vip_status"] = True
         service_appointment = ServiceAppointment.objects.create(**content)
         return JsonResponse(
@@ -113,7 +116,7 @@ def api_appointment(request, pk):
                 safe=False,
             )
         except ServiceAppointment.DoesNotExist:
-            response = JsonResponse({"message": "Does not exist"})
+            response = JsonResponse({"message": "Service appointment does not exist"})
             response.status_code = 404
             return response
     elif request.method == "DELETE":
@@ -126,7 +129,9 @@ def api_appointment(request, pk):
                 safe=False,
             )
         except ServiceAppointment.DoesNotExist:
-            return JsonResponse({"message": "Does not exist"})
+            response = JsonResponse({"message": "Service appointment does not exist"})
+            response.status_code = 404
+            return response
     else: #PUT
         try:
             content = json.loads(request.body)
@@ -139,6 +144,7 @@ def api_appointment(request, pk):
                 "technician",
                 "service_reason",
                 "vip_status",
+                "service_status",
             ]
             for prop in props:
                 if prop in content:
@@ -150,11 +156,22 @@ def api_appointment(request, pk):
                 safe=False,
             )
         except ServiceAppointment.DoesNotExist:
-            response = JsonResponse({"message": "Does not exist"})
+            response = JsonResponse({"message": "Service appointment does not exist"})
             response.status_code = 404
             return response
 
 
-# @require_http_methods(["GET"])
-# def api_list_service_history(request, vin):
-#     service_appointment = ServiceAppointment.objects.filter()
+@require_http_methods(["GET", "POST"])
+def api_list_service_history(request):
+    if request.method == "GET":
+        response = JsonResponse({"message": "Success"})
+        response.status_code = 200
+        return response
+    else: #POST
+        content = json.loads(request.body)
+        filtered_appointments = ServiceAppointment.objects.filter(vin=content["vin"])
+        return JsonResponse(
+            {"appointments": filtered_appointments},
+            encoder=ServiceAppointmentEncoder,
+            safe=False,
+        )
