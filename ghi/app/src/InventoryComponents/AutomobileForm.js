@@ -1,13 +1,13 @@
 import React from 'react';
 
-class AutomobileForm extends Reacts.Component {
+class AutomobileForm extends React.Component {
     state= {
         models: [],
         year: ' ',
         color: ' ',
         vin: ' ',
     };
-}
+
     handleModelChange=(event) => {
         const value = event.target.value;
         this.setState({model_id: value})
@@ -59,12 +59,16 @@ class AutomobileForm extends Reacts.Component {
 
     componentDidMount = async () => {
         const url = 'http://localhost:8100/api/models/';
-        const response = await response.json();
-        this.setState({models: data.models})
+        const response = await fetch(url);
+        if (response.ok) {
+            const data = await response.json();
+            this.setState({models: data.models});
+        }
     }
 
-    render () {
+    render = () => {
         return(
+            <>
             <div className="row">
             <div className="offset-3 col-6">
             <div className="shadow p-4 mt-4">
@@ -75,7 +79,7 @@ class AutomobileForm extends Reacts.Component {
                             <label htmlFor="name">VIN</label>
                         </div>
                         <div>
-                        <select name={this.handleModelChange} name="model_id" id="model_id" required value={this.state.model_id} className="form-select">
+                        <select onChange={this.handleModelChange} name="model_id" id="model_id" required value={this.state.model_id} className="form-select">
                             <option value=" ">Choose a model</option>
                             {this.state.models.map(model_id =>{
                                 return(
@@ -99,8 +103,9 @@ class AutomobileForm extends Reacts.Component {
             </div>
             </div>
             </div>
+            </>
         )
     }
+}
 
-
-    export default AutomobileForm;
+export default AutomobileForm;

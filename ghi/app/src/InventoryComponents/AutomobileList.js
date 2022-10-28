@@ -4,7 +4,7 @@ class ListAutomobiles extends React.Component {
     state = {
         automobiles: [ ]
     };
-}
+
 
     componentDidMount = async() => {
         const url = 'http://localhost:8100/api/automobiles/';
@@ -15,7 +15,7 @@ class ListAutomobiles extends React.Component {
         }
     }
 
-    render () {
+    render = () => {
         return(
             <>
             <div className="container p-10 m-10">
@@ -47,6 +47,6 @@ class ListAutomobiles extends React.Component {
             </>
         )
     }
-
+}
 
 export default ListAutomobiles;

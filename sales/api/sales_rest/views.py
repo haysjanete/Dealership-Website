@@ -127,12 +127,3 @@ def api_show_sale(request, pk):
             return JsonResponse(
                 {"message": "sale does not exist"}
             )
-
-# @require_http_methods(["GET"])
-# def api_unsold_vins(request):
-#     if request.method == "GET":
-#         return JsonResponse (
-#             "automobile",
-#             encoder=AutomobileVOEncoder,
-#             safe = False,
-#         )
